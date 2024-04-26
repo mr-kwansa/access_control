@@ -1,0 +1,6 @@
+{% autoescape off %}
+Welcome to Access Control
+Hello {{ name }},
+Please confirm your email address by clicking on the link below:
+Confirm link: http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+{% endautoescape %}

@@ -1,9 +1,17 @@
 # views.py
+from django.core.mail import EmailMessage
+from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login,logout
-
+from access_control import settings
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode
+from django.utils.http import urlsafe_base64_decode
+from django.utils.encoding import force_bytes ,force_str
+from . tokens import generatetoken
 def home(request):
     return render(request,"login/index.html")
 #sigup views
@@ -49,16 +57,42 @@ def signup(request):
         myuser = User.objects.create_user(username, email,password)
         myuser.first_name = first_name
         myuser.last_name= last_name
-        
+        myuser.is_active = False
         
         # okay this one dey save the information about the user 
         myuser.save()
         # basic error handleing
         messages.success(request,"Successfully created user")
-        # upon successfullt creating a user take the user to the sigin page    
+        # upon successfullt creating a user take the user to the sigin page   
+        
+        # Sending welcome message via email 
+        subject = "Hello Welcome To THE FUTURE OF SAAS"
+        message ="Hello "+myuser.first_name+" welcome to Access key management you can go on the site and purchase ypur access key once you activate your account an activation email will be sent to you shortly "
+        from_email= settings.EMAIL_HOST_USER
+        to_email=[myuser.email]
+        # method to send the email
+        send_mail(subject, message,from_email,to_email)
+        
+        # activation of email for user request)ser
+        current_site = get_current_site(request)
+        email_subject ="Welcome "+myuser.first_name+ ", please click the link below to activate your account"
+        email_message = render_to_string('email_confirmation.html', {
+                'user': myuser.first_name,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(myuser.pk)),
+                'token': generatetoken.make_token(myuser),
+            })
+        
+        email = EmailMessage(
+                email_subject,
+                email_message,
+                from_email,
+                to_email,
+        )
+        email.send()
         return redirect('signin')
-         
-    return render(request ,"login/signup.html")
+    
+    return render(request, "login/signup.html")
 
 # signing view
 def signin(request):
@@ -87,3 +121,19 @@ def signout(request):
     logout(request)
     messages.success(request,"logged out")
     return redirect("home") 
+
+def activate(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        myuser = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        myuser = None
+    
+    if myuser is not None and generatetoken.check_token(myuser, token):  # Use your custom token generator here
+        myuser.is_active = True
+        myuser.save()
+        login(request, myuser)
+        messages.success(request, 'Your account has been activated successfully. You can now log in.')
+        return redirect("home")
+    else:
+        return render(request, "activationfaild.html")
