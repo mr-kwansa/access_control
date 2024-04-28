@@ -113,13 +113,13 @@ def signin(request):
         # wrote a function to chek the status and redirect to the main page 
         if user is not None:
             login(request,user)
-            first_name=user.first_name   
-            return render(request,"login/index.html",{'fname':first_name})
+            # first_name=user.first_name   
+            return render(request,"login/index.html",{'user':user})
         else:
             messages.error(request,"Details entered for user are incorrenct")
             return redirect('home')
         
-    return render(request ,"login/signin.html")
+    return render(request ,"login/signin.html",)
 
 # signout view and logic
 def signout(request):
@@ -142,7 +142,7 @@ def activate(request, uidb64, token):
         return redirect("home")
     else:
         return render(request, "activationfaild.html")
-    
+@login_required
 def generate_access_key(request):
     # Check if the user already has an access key
     access_key = AccessKey.objects.filter(user=request.user).first()
@@ -153,7 +153,7 @@ def generate_access_key(request):
         access_key = access_key.key
     else:
         characters = string.ascii_letters + string.digits + string.punctuation
-        access_key = ''.join(random.choice(characters) for _ in range(10))
+        access_key = ''.join(random.choice(characters) for _ in range(30))
         AccessKey.objects.create(user=request.user, key=access_key)
 
     # Pass the access key to the template context

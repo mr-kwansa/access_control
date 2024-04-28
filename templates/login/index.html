@@ -12,9 +12,10 @@
     <h3>Welcome to Access Control</h3>
 
     {% if user.is_authenticated %}
-        <h2>Hello, {{ user.first_name }}</h2>
+        <h2>Hello, {{ user.first_name}}</h2>
         {% if access_key %}
-            <p>Your access key is: {{ access_key }}</p>
+            <p>Your access key is: <span id="access-key">{{ access_key }}</span></p>
+            <button onclick="copyToClipboard()">Copy Access Key</button>
             <a href='/signout'>Signout</a>
         {% else %}
             <h3>Welcome to the Access Key generating site. Click the link below to buy your access key.</h3>
@@ -26,6 +27,17 @@
         <a href='/signup'>Don't have an account? SIGNUP</a>
     {% endif %}
 
-    <script src="" async defer></script>
+    <script>
+        function copyToClipboard() {
+            var accessKey = document.getElementById("access-key");
+            var range = document.createRange();
+            range.selectNode(accessKey);
+            window.getSelection().removeAllRanges(); // Clear current selection
+            window.getSelection().addRange(range); // Select text
+            document.execCommand("copy"); // Copy selected text to clipboard
+            window.getSelection().removeAllRanges(); // Clear selection again
+            alert("Access key copied to clipboard!");
+        }
+    </script>
 </body>
 </html>
