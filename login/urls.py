@@ -7,6 +7,7 @@ urlpatterns = [
     path('signin/',views.signin,name ='signin'),
     path('signout/',views.signout,name ='signout'),
     path('activate/<uidb64>/<token>',views.activate,name ='activate'),
+    path('generate_access_key/',views.generate_access_key,name ='generate_access_key'),
     
     
 ] 

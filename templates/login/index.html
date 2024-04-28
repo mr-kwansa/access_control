@@ -13,7 +13,14 @@
 
     {% if user.is_authenticated %}
         <h2>Hello, {{ user.first_name }}</h2>
-        <a href='/signout'>Signout</a>
+        {% if access_key %}
+            <p>Your access key is: {{ access_key }}</p>
+            <a href='/signout'>Signout</a>
+        {% else %}
+            <h3>Welcome to the Access Key generating site. Click the link below to buy your access key.</h3>
+            <a href="/generate_access_key" class="btn btn-primary">Buy Now!</a><br/><br/>
+            <a href='/signout'>Signout</a>
+        {% endif %}
     {% else %}
         <a href='/signin'>Signin</a>
         <a href='/signup'>Don't have an account? SIGNUP</a>

@@ -1,17 +1,22 @@
 # views.py
+import string
+import random
 from django.core.mail import EmailMessage
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login,logout
+from django.contrib.auth.decorators import login_required
 from access_control import settings
+from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_bytes ,force_str
 from . tokens import generatetoken
+from .models import AccessKey
 def home(request):
     return render(request,"login/index.html")
 #sigup views
@@ -137,3 +142,19 @@ def activate(request, uidb64, token):
         return redirect("home")
     else:
         return render(request, "activationfaild.html")
+    
+def generate_access_key(request):
+    # Check if the user already has an access key
+    access_key = AccessKey.objects.filter(user=request.user).first()
+
+    # If an access key already exists for the user, pass it to the template context
+    # Otherwise, generate a new access key and save it to the database
+    if access_key:
+        access_key = access_key.key
+    else:
+        characters = string.ascii_letters + string.digits + string.punctuation
+        access_key = ''.join(random.choice(characters) for _ in range(10))
+        AccessKey.objects.create(user=request.user, key=access_key)
+
+    # Pass the access key to the template context
+    return render(request, "login/index.html", {'access_key': access_key})
