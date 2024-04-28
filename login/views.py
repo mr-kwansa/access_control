@@ -142,6 +142,8 @@ def activate(request, uidb64, token):
         return redirect("home")
     else:
         return render(request, "activationfaild.html")
+    
+    
 @login_required
 def generate_access_key(request):
     # Check if the user already has an access key
