@@ -1,6 +1,8 @@
 # views.py
 import string
 import random
+from datetime import timedelta 
+from django.utils import timezone
 from django.core.mail import EmailMessage
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import redirect, render
@@ -143,20 +145,29 @@ def activate(request, uidb64, token):
     else:
         return render(request, "activationfaild.html")
     
-    
+
 @login_required
 def generate_access_key(request):
     # Check if the user already has an access key
-    access_key = AccessKey.objects.filter(user=request.user).first()
+    access_key_instance = AccessKey.objects.filter(user=request.user).first()
 
-    # If an access key already exists for the user, pass it to the template context
-    # Otherwise, generate a new access key and save it to the database
-    if access_key:
-        access_key = access_key.key
+    # If an access key already exists for the user, use it; otherwise, generate a new one
+    if access_key_instance:
+        access_key = access_key_instance.key
+        created_at = access_key_instance.created_at
+        expiration_date = access_key_instance.expiration_date
+        is_active=access_key_instance.is_active
     else:
         characters = string.ascii_letters + string.digits + string.punctuation
         access_key = ''.join(random.choice(characters) for _ in range(30))
-        AccessKey.objects.create(user=request.user, key=access_key)
-
-    # Pass the access key to the template context
-    return render(request, "login/index.html", {'access_key': access_key})
+        created_at = timezone.now()
+        expiration_date = created_at + timedelta(days=180)
+        is_active = True
+        access_key_instance = AccessKey.objects.create(user=request.user, 
+                                                       key=access_key, 
+                                                       created_at=created_at, 
+                                                       expiration_date=expiration_date,
+                                                       is_active=is_active)
+        
+    # Pass the access key and its details to the template context
+    return render(request, "login/index.html", {'access_key': access_key_instance.key, 'created_at': created_at, 'expiration_date': expiration_date ,'is_active':is_active})

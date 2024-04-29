@@ -3,18 +3,27 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Login into Access Control</title>
+    <title>Welcome to Access Control</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="">
 </head>
 <body>
-    <h3>Welcome to Access Control</h3>
-
-    {% if user.is_authenticated %}
-        <h2>Hello, {{ user.first_name}}</h2>
+    {% if not user.is_authenticated %}
+        <h3>Welcome to Access Control</h3>
+        <a href='/signin'>Signin</a>
+        <br>
+        <a href='/signup'>Don't have an account? SIGNUP</a>
+        <br>
+        <a href='/reset_password'>Forgot password?</a>
+    {% else %}
+        <!-- Content for authenticated users goes here -->
+        <h2>Hello, {{ user.first_name }}</h2>
         {% if access_key %}
             <p>Your access key is: <span id="access-key">{{ access_key }}</span></p>
+            <p>This Key was Created: <span id="created-at">{{ created_at }}</span></p>
+            <p>This Key Expires: <span id="expiration-date">{{ expiration_date }}</span></p>
+            <p>This Status of this Key is : <span id="is-active">{{ is_active2 }}</span></p>
             <button onclick="copyToClipboard()">Copy Access Key</button>
             <a href='/signout'>Signout</a>
         {% else %}
@@ -22,24 +31,20 @@
             <a href="/generate_access_key" class="btn btn-primary">Buy Now!</a><br/><br/>
             <a href='/signout'>Signout</a>
         {% endif %}
-    {% else %}
-        <a href='/signin'>Signin</a>
-        <br>
-        <a href='/signup'>Don't have an account? SIGNUP</a>
-        <br>
-        <a href='/reset_password'>Forgot password?</a>
     {% endif %}
 
     <script>
         function copyToClipboard() {
-            var accessKey = document.getElementById("access-key");
-            var range = document.createRange();
-            range.selectNode(accessKey);
-            window.getSelection().removeAllRanges(); // Clear current selection
-            window.getSelection().addRange(range); // Select text
-            document.execCommand("copy"); // Copy selected text to clipboard
-            window.getSelection().removeAllRanges(); // Clear selection again
-            alert("Access key copied to clipboard!");
+            var accessKeyElement = document.getElementById("access-key");
+            if (accessKeyElement) {
+                var range = document.createRange();
+                range.selectNode(accessKeyElement);
+                window.getSelection().removeAllRanges(); // Clear current selection
+                window.getSelection().addRange(range); // Select text
+                document.execCommand("copy"); // Copy selected text to clipboard
+                window.getSelection().removeAllRanges(); // Clear selection again
+                alert("Access key copied to clipboard!");
+            }
         }
     </script>
 </body>
