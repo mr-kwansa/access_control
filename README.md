@@ -23,8 +23,10 @@ The Access Control System is a web application designed to manage access keys fo
 2. Install Python (if not already installed).
 3. Install Django using pip: `pip install django`.
 4. Navigate to the project directory in your terminal.
-5. Run the following command to start the development server: `python manage.py runserver`.
-6. Access the application in your web browser at `http://localhost:8000`.
+5. Create a virtual environment by running the following 'python -m venv env'.
+5. Run the command pip install -r requirements.txt to install any dependencies listed in the file.
+6. Run the following command to start the development server: `python manage.py runserver`.
+7. Open a web browser and go to `http://localhost:8000/` to view the application.
 
 ## Usage
 1. Sign up for a new account if you don't have one already.
