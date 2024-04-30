@@ -1,0 +1,43 @@
+<!-- admin_panel.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel</title>
+</head>
+<body>
+    <h1>Admin Panel - Users and Access Keys</h1>
+    <table>
+        <tr>
+            <th>User ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Access Key</th>
+            <th>Key Status</th>
+            <th>Revoke Access Key</th>
+        </tr>
+        {% for item in users_with_keys %}
+        <tr>
+            <td>{{ item.user.id }}</td>
+            <td>{{ item.user.username }}</td>
+            <td>{{ item.user.email }}</td>
+            <td>{% if item.access_key.is_active %}Active{% else %}Inactive{% endif %}</td>
+            <td>{% if item.access_key %}
+                {{ item.access_key.key }}
+            {% else %}
+                N/A
+            {% endif %}
+            </td>
+            <td>
+                {% if item.access_key %}
+                <form action="{% url 'toggle_access_key_status' item.access_key.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Revoke</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

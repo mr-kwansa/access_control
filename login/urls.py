@@ -8,6 +8,8 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('signin/', views.signin, name='signin'),
     path('signout/', views.signout, name='signout'),
+    path('micro_focus_admin/',views.micro_focus_admin,name='micro_focus_admin'),
+    path('toggle_access_key_status/<int:access_key_id>/',views.toggle_access_key_status, name='toggle_access_key_status'),
     
     
     path('activate/<uidb64>/<token>/', views.activate, name='activate'),

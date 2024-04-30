@@ -9,6 +9,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login,logout
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from access_control import settings
 from django.http import JsonResponse
@@ -19,6 +20,7 @@ from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_bytes ,force_str
 from . tokens import generatetoken
 from .models import AccessKey
+
 def home(request):
     return render(request,"login/index.html")
 #sigup views
@@ -163,11 +165,37 @@ def generate_access_key(request):
         created_at = timezone.now()
         expiration_date = created_at + timedelta(days=180)
         is_active = True
-        access_key_instance = AccessKey.objects.create(user=request.user, 
+        access_key_instance =AccessKey.objects.create(user=request.user, 
                                                        key=access_key, 
                                                        created_at=created_at, 
                                                        expiration_date=expiration_date,
                                                        is_active=is_active)
-        
+
     # Pass the access key and its details to the template context
-    return render(request, "login/index.html", {'access_key': access_key_instance.key, 'created_at': created_at, 'expiration_date': expiration_date ,'is_active':is_active})
+    print (access_key_instance)
+    return render(request, "login/index.html", {'access_key_instance': access_key_instance.key, 'created_at': created_at, 'expiration_date': expiration_date ,'is_active':is_active})
+
+@staff_member_required
+def micro_focus_admin(request):
+    # Query all users and their associated access keys
+    users_with_keys = []
+    users = User.objects.all()
+    for user in users:
+        access_key = AccessKey.objects.filter(user=user).first()
+        users_with_keys.append({'user': user, 'access_key': access_key})
+
+    return render(request, 'login/micro_focus_admin.html', {'users_with_keys': users_with_keys})
+
+
+@staff_member_required
+def toggle_access_key_status(request, access_key_id):
+    # Retrieve the access key object
+    access_key = AccessKey.objects.get(id=access_key_id)
+
+    # Toggle the is_active status
+    access_key.is_active = not access_key.is_active
+    access_key.save()
+
+    return redirect('micro_focus_admin')
+
+    
