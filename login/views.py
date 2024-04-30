@@ -172,7 +172,6 @@ def generate_access_key(request):
                                                        is_active=is_active)
 
     # Pass the access key and its details to the template context
-    print (access_key_instance)
     return render(request, "login/index.html", {'access_key_instance': access_key_instance.key, 'created_at': created_at, 'expiration_date': expiration_date ,'is_active':is_active})
 
 @staff_member_required
