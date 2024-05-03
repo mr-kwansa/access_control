@@ -205,7 +205,7 @@ def micro_focus_admin_api(request):
     users = User.objects.all()
     for user in users:
         access_key = AccessKey.objects.filter(user=user).first()
-        users_with_keys.append({'user': user.username, 'user_email':user.email,'user_accesskey_is_active':access_key.is_active ,'access_key': access_key.key if access_key else "N/A"})
+        users_with_keys.append({'user': user.username, 'user_email':user.email,'user_accesskey_is_active':access_key.is_active ,'access_key_date_created':access_key.created_at,'access_key_date_expire':access_key.expiration_date,'access_key': access_key.key if access_key else "N/A"})
 
     # Return the data as JSON response
     return JsonResponse({'users_with_keys': users_with_keys})
