@@ -20,13 +20,31 @@ The Access Control System is a web application designed to manage access keys fo
 
 ## Setup Instructions
 1. Clone the repository to your local machine.
+    'git clone https://github.com/your-username/access-control-system.git'
+
 2. Install Python (if not already installed).
-3. Install Django using pip: `pip install django`.
+    'https://www.python.org/downloads/'
+
+3. Install Django using pip: 
+    `pip install django`.
+
 4. Navigate to the project directory in your terminal.
-5. Create a virtual environment by running the following 'python -m venv env'.
-6. Run the command pip install -r requirements.txt to install any dependencies listed in the file.
-7. Run the following command to start the development server: `python manage.py runserver`.
-8. Open a web browser and go to `http://localhost:8000/` to view the application.
+
+5. Create a virtual environment by running the following 
+    'python -m venv env'.
+
+6. Activate the environmentby running the following
+    'source env/bin/activate' (Macos/Liniux users)
+    'env\Scripts\activate'  (Windows)
+
+7. Run the command bellow to install any dependencies listed in the file.
+    'pip install -r requirements.txt'
+
+8. Run the following command to start the development server: 
+    `python manage.py runserver`.
+
+9. Open a web browser and go to  to view the application.
+    `http://localhost:8000/`
 
 ## Usage
 1. Sign up for a new account if you don't have one already.
@@ -35,5 +53,19 @@ The Access Control System is a web application designed to manage access keys fo
 4. Manage your access key status as needed.
 5. Sign out when done.
 
+## Usage for Micro Focus Admin
+1. Sign up for a new account if you don't have one already.
+2. Sign in using your credentials.
+3. You will need the super user to make yout account a staff member
+4. Then you head over to the micro_focus admin panel 'micro_focus_admin/'
+5. Sign out when done.
+
+## Steps for accessing the endpoint (api) to integrate into other systems
+1. Run the server and head over to 'api/micro_focus_admin/'
+2. It would a json respons which you can then latter use 
+
 ## Contributors
 - mr-kwansa [https://github.com/mr-kwansa]
+
+
+
