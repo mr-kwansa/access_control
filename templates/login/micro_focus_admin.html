@@ -1,11 +1,60 @@
 <!-- admin_panel.html -->
-
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Admin Panel</title>
+    <link rel="stylesheet" type="text/css" href="admin_styles.css">
 </head>
 <body>
+    <style type="text/css">/* admin_styles.css */
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        td button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        td button:hover {
+            background-color: #c82333;
+        }
+        
+        </style>
     <h1>Admin Panel - Users and Access Keys</h1>
     <table>
         <tr>
