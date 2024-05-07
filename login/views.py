@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from access_control import settings
 from django.http import JsonResponse
 from django.core.mail import send_mail
@@ -117,12 +117,17 @@ def signin(request):
         # wrote a function to chek the status and redirect to the main page 
         if user is not None:
             login(request,user)
-            # first_name=user.first_name   
-            return render(request,"login/index.html",{'user':user})
+            # first_name=user.first_name 
+            if user.is_staff:
+                return redirect('micro_focus_admin')
+            else:
+                return render(request,"login/index.html",{'user':user})
         else:
             messages.error(request,"Details entered for user are incorrenct")
             return redirect('home')
         
+        
+
     return render(request ,"login/signin.html",)
 
 # signout view and logic
@@ -175,6 +180,7 @@ def generate_access_key(request):
     return render(request, "login/index.html", {'access_key_instance': access_key_instance.key, 'created_at': created_at, 'expiration_date': expiration_date ,'is_active':is_active})
 
 @staff_member_required
+@user_passes_test(lambda u: u.is_staff, login_url='/login/')  # Ensures the user is staff
 def micro_focus_admin(request):
     # Query all users and their associated access keys
     users_with_keys = []

@@ -4,10 +4,9 @@
 <html>
 <head>
     <title>Admin Panel</title>
-    <link rel="stylesheet" type="text/css" href="admin_styles.css">
 </head>
 <body>
-    <style type="text/css">/* admin_styles.css */
+    <style type="text/css">
 
         body {
             font-family: Arial, sans-serif;
@@ -88,5 +87,7 @@
         </tr>
         {% endfor %}
     </table>
+
+    <a href="{% url 'signout' %}">Sign out</a>
 </body>
 </html>
