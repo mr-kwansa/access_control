@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from login import views
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 
 urlpatterns = [
@@ -25,3 +26,5 @@ urlpatterns = [
     path('activate',views.activate,name='activate'),
     
 ]
+
+urlpatterns += staticfiles_urlpatterns()
