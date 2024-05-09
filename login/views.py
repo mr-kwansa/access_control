@@ -76,12 +76,19 @@ def signup(request):
         
         # Sending welcome message via email 
         subject = "Hello Welcome To THE FUTURE OF SAAS"
-        message ="Hello "+myuser.first_name+" welcome to Access key management you can go on the site and purchase ypur access key once you activate your account an activation email will be sent to you shortly "
         from_email= settings.EMAIL_HOST_USER
         to_email=[myuser.email]
-        # method to send the email
-        send_mail(subject, message,from_email,to_email)
-        print (settings.EMAIL_HOST_USER)
+        message_activate = (
+        "Hello " + myuser.first_name + "!" + "\n" + "Welcome to The Access key Managment system "+"\n"+
+        "Please click the link below to activate your account" +
+        "\n" + render_to_string('email_confirmation.html', {
+        'domain': get_current_site(request),
+        'uid': urlsafe_base64_encode(force_bytes(myuser.pk)),
+        'token': generatetoken.make_token(myuser),
+    })
+)
+        send_mail(subject,message_activate,to_email,message_activate,from_email, to_email, fail_silently=False)
+        return redirect('signin')
         # activation of email for user request)ser
         # current_site = get_current_site(request)
         # email_subject ="Welcome "+myuser.first_name+ ", please click the link below to activate your account"
@@ -101,17 +108,7 @@ def signup(request):
         # send_mail(email_subject,email_message,to_email,from_email)
         # return redirect('signin')
         
-        subject_activate = "Your account has to be activated"
-        message_activate = (
-        "Hello " + myuser.first_name + "!" + "\n" + "Please click the link below to activate your account" +
-        "\n" + render_to_string('email_confirmation.html', {
-        'domain': get_current_site(request),
-        'uid': urlsafe_base64_encode(force_bytes(myuser.pk)),
-        'token': generatetoken.make_token(myuser),
-    })
-)
-        send_mail(subject_activate, message_activate, settings.EMAIL_HOST_USER, to_email, fail_silently=False)
-        return redirect('signin')
+        
 
     return render(request, "login/signup.html")
 
