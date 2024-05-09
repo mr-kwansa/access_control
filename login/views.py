@@ -81,7 +81,7 @@ def signup(request):
         to_email=[myuser.email]
         # method to send the email
         send_mail(subject, message,from_email,to_email)
-        
+        print (settings.EMAIL_HOST_USER)
         # activation of email for user request)ser
         current_site = get_current_site(request)
         email_subject ="Welcome "+myuser.first_name+ ", please click the link below to activate your account"
