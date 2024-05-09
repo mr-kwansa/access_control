@@ -101,15 +101,18 @@ def signup(request):
         # send_mail(email_subject,email_message,to_email,from_email)
         # return redirect('signin')
         
-        subject_activate= "Your account has to  be activated"
-        message_activate= "Hello " + myuser.first_name+ "!"+"\n"+"Please click the link bellow to activate your accoount"
-        + "\n" +render_to_string('email_confirmation.html',{
-            'domain':get_current_site(request),
-            'uid':urlsafe_base64_encode(force_bytes(myuser.uid)),
-            'token':generatetoken.make_token(myuser),
-        })
-        send_mail(subject_activate,message_activate,settings.EMAIL_HOST_USER,to_email,fail_silently=False)
+        subject_activate = "Your account has to be activated"
+        message_activate = (
+        "Hello " + myuser.first_name + "!" + "\n" + "Please click the link below to activate your account" +
+        "\n" + render_to_string('email_confirmation.html', {
+        'domain': get_current_site(request),
+        'uid': urlsafe_base64_encode(force_bytes(myuser.uid)),
+        'token': generatetoken.make_token(myuser),
+    })
+)
+        send_mail(subject_activate, message_activate, settings.EMAIL_HOST_USER, to_email, fail_silently=False)
         return redirect('signin')
+
     return render(request, "login/signup.html")
 
 # signing view
