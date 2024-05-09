@@ -106,7 +106,7 @@ def signup(request):
         "Hello " + myuser.first_name + "!" + "\n" + "Please click the link below to activate your account" +
         "\n" + render_to_string('email_confirmation.html', {
         'domain': get_current_site(request),
-        'uid': urlsafe_base64_encode(force_bytes(myuser.uid)),
+        'uid': urlsafe_base64_encode(force_bytes(myuser.pk)),
         'token': generatetoken.make_token(myuser),
     })
 )
