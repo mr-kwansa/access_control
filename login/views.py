@@ -76,18 +76,22 @@ def signup(request):
         
         # Sending welcome message via email 
         subject = "Hello Welcome To THE FUTURE OF SAAS"
-        from_email= settings.EMAIL_HOST_USER
-        to_email=[myuser.email]
-        message_activate = (
-        "Hello " + myuser.first_name + "!" + "\n" + "Welcome to The Access key Managment system "+"\n"+
-        "Please click the link below to activate your account" +
-        "\n" + render_to_string('email_confirmation.html', {
-        'domain': get_current_site(request),
-        'uid': urlsafe_base64_encode(force_bytes(myuser.pk)),
-        'token': generatetoken.make_token(myuser),
-    })
-)
-        send_mail(subject,message_activate,to_email,message_activate,from_email, to_email, fail_silently=False)
+        from_email = settings.EMAIL_HOST_USER
+        to_email = [myuser.email]
+
+        message_body = (
+             "Hello " + myuser.first_name + "!\n" +
+             "Welcome to The Access key Managment system.\n" +
+             "Please click the link below to activate your account.\n" +
+             render_to_string('email_confirmation.html', {
+            'domain': get_current_site(request),
+            'uid': urlsafe_base64_encode(force_bytes(myuser.pk)),
+            'token': generatetoken.make_token(myuser),
+        })
+            )
+
+        send_mail(subject, message_body, from_email, to_email, fail_silently=False)
+
         return redirect('signin')
         # activation of email for user request)ser
         # current_site = get_current_site(request)
