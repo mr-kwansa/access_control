@@ -203,7 +203,7 @@ def micro_focus_admin_api(request):
     users = User.objects.all()
     for user in users:
        access_key = AccessKey.objects.filter(user=user).first()
-    users_with_keys.append({
+       users_with_keys.append({
                             'user': user.username,
                             'user_email': user.email,
                             'user_accesskey_is_active': access_key.is_active if access_key else False,

@@ -74,4 +74,12 @@ password : sysadmin@1
 -[https://access-control-3rwo.onrender.com]
 
 
+## Endpoints for Micro Focus Admin (live)
+-[https://access-control-3rwo.onrender.com/api/micro_focus_admin/]
+
+
+## Endpoints for Micro Focus Admin (local)
+-[http://127.0.0.1:8000/api/micro_focus_admin/]
+
+
 
