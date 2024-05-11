@@ -1,4 +1,11 @@
 {%load static%}
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags == "error" %} style="color: red"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
 <!DOCTYPE html>
 <html>
 <head>
