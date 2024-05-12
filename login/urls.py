@@ -11,6 +11,8 @@ urlpatterns = [
     path('micro_focus_admin/',views.micro_focus_admin,name='micro_focus_admin'),
     path('api/micro_focus_admin/', views.micro_focus_admin_api, name='micro_focus_admin_api'),
     path('toggle_access_key_status/<int:access_key_id>/',views.toggle_access_key_status, name='toggle_access_key_status'),
+    path('school_integration_endpoint/', views.school_integration_endpoint, name='school_integration_endpoint'),
+
     
     
     path('activate/<uidb64>/<token>/', views.activate, name='activate'),

@@ -5,7 +5,7 @@ from datetime import timedelta
 from django.utils import timezone
 from django.core.mail import EmailMessage
 from django.contrib.sites.shortcuts import get_current_site
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render ,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login,logout
@@ -215,3 +215,33 @@ def micro_focus_admin_api(request):
 
     # Return the data as JSON response
     return JsonResponse({'users_with_keys': users_with_keys})
+
+    
+def school_integration_endpoint(request):
+    if request.method == 'POST':
+        
+        email =request.POST['email']
+        
+        user = User.objects.filter(email=email).first()
+        if user:
+            access_key = AccessKey.objects.filter(user=user,is_active=True).first()
+            
+            if access_key:
+                response_data={
+                    'status': 'success',
+                    'message':'Successfully authenticated',
+                    'user': {
+                        'username': user.username,
+                        'email': user.email,
+                        'active_key':access_key.key,
+                        'creation_date':access_key.created_at,
+                        'expiration_date':access_key.expiration_date,
+                        
+                    }
+                }
+                return JsonResponse(response_data, status=201)
+            else:
+                return JsonResponse({'status':'error','message':'NO Active key found'})
+        else:
+            return JsonResponse({'status':'error','message':'User not found'},status=404)
+    return render(request,'login/school_integration_endpoint.html')
