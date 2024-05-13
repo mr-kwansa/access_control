@@ -76,15 +76,14 @@ The Access Control System is a web application designed to manage access keys fo
 
 
 ## Endpoints for Micro Focus Admin
--[https://access-control-3rwo.onrender.com/api/micro_focus_admin/](live)
+-[https://access-control-3rwo.onrender.com/api/micro_focus_admin/]
 
--[http://127.0.0.1:8000/api/micro_focus_admin/](local)
-
+-[http://127.0.0.1:8000/api/micro_focus_admin/]
 
 
 ## Endpoints for Micro Focus Admin with search
 This can be accessed via a link in the micro focus admin page
--[http://localhost:8000/school_integration_endpoint/](local)
+-[http://localhost:8000/school_integration_endpoint/]
 
 
 
