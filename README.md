@@ -54,8 +54,9 @@ The Access Control System is a web application designed to manage access keys fo
 5. Sign out when done.
 ##
 ## Admin user account
-username : admin
-password : sysadmin@1
+-Username : admin
+
+-Password : sysadmin@1
 ## Usage for Micro Focus Admin
 1. Sign up for a new account if you don't have one already.
 2. Sign in using your credentials.
