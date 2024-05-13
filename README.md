@@ -7,7 +7,7 @@ The Access Control System is a web application designed to manage access keys fo
 - **User Authentication:** Users can sign up and sign in to the system securely.
 - **Access Key Generation:** Upon signing in, users can generate access keys if they don't have one already.
 - **Access Key Management:** Users can view details of their access keys, including creation date, expiration date, and status.
-- **Revocable Access Keys:** Access keys can be revoked by the user or the administrator.
+- **Revocable Access Keys:** Access keys can be revoked by an  administrator.
 - **Email Activation:** Upon signing up, users receive an email with an activation link to verify their email address.
 - **Password Reset:** Users can reset their passwords if they forget them.
 
@@ -15,7 +15,7 @@ The Access Control System is a web application designed to manage access keys fo
 - **Django:** Python-based web framework used for backend development.
 - **HTML/CSS:** Frontend design and layout.
 - **JavaScript:** Client-side scripting for interactive features.
-- **SQLite:** Database management system used for storing user data.
+- **PostgreSQL:** Database management system used for storing user data.
 - **Django Templating Language:** Used for dynamic content rendering in HTML templates.
 
 ## Setup Instructions
@@ -53,7 +53,7 @@ The Access Control System is a web application designed to manage access keys fo
 4. Manage your access key status as needed.
 5. Sign out when done.
 ##
-admin user account
+## admin user account
 username : admin
 password : sysadmin@1
 ## Usage for Micro Focus Admin
@@ -76,12 +76,13 @@ password : sysadmin@1
 
 ## Endpoints for Micro Focus Admin
 -[https://access-control-3rwo.onrender.com/api/micro_focus_admin/](live)
+
 -[http://127.0.0.1:8000/api/micro_focus_admin/](local)
 
 
 
 ## Endpoints for Micro Focus Admin with search
-this can be accessed via a link in the micro focus admin page
+This can be accessed via a link in the micro focus admin page
 -[http://localhost:8000/school_integration_endpoint/](local)
 
 
