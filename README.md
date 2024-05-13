@@ -53,7 +53,7 @@ The Access Control System is a web application designed to manage access keys fo
 4. Manage your access key status as needed.
 5. Sign out when done.
 ##
-## admin user account
+## Admin user account
 username : admin
 password : sysadmin@1
 ## Usage for Micro Focus Admin
