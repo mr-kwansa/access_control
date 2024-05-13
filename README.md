@@ -1,7 +1,7 @@
 # Access Control System
 
 ## Overview
-The Access Control System is a web application designed to manage access keys for users. It allows users to sign up, sign in, generate access keys, and manage their access key status.
+The Access Control System is a web application designed to manage access keys for users. It allows users to sign up, sign in, generate access keys, and see their access key status.
 
 ## Features
 - **User Authentication:** Users can sign up and sign in to the system securely.
