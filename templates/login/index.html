@@ -1,101 +1,142 @@
-{%load static%}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+</head>
+<style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        background: #1abc9c;
+        overflow: hidden;
+    }
+
+    ::selection {
+        background: rgba(26, 188, 156, 0.3);
+    }
+
+    .container {
+        max-width: 440px;
+        padding: 0 20px;
+        margin: 170px auto;
+        text-align: center; /* Center align content */
+    }
+
+    h1 {
+        font-size: 36px;
+        color: #fff;
+        margin-bottom: 20px; /* Add margin below the heading */
+    }
+
+    .buttons-container {
+        display: flex;
+        justify-content: center; /* Center align buttons */
+        gap: 10px; /* Add gap between buttons */
+    }
+
+    .buttons-container a {
+        text-decoration: none;
+        color: #fff;
+        background-color: #16a085;
+        border: 1px solid #16a085;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 18px;
+        transition: background-color 0.3s ease;
+    }
+
+    .buttons-container a:hover {
+        background-color: #12876f;
+    }
+
+    /* Styling for the white box */
+    .white-box {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    max-width: 600px; /* Adjust the maximum width of the white box */
+    margin: 20px auto; /* Center the white box horizontally */
+    }
+    .white-box h2{
+        color: #16a085;
+    }
+
+    /* Styling for the access key details */
+    .access-details p {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .access-details button {
+        background-color: #16a085;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .access-details button:hover {
+        background-color: #12876f;
+    }
+</style>
+<body>
+<script>
+    function copyToClipboard() {
+        var accessKeyElement = document.getElementById("access-key");
+        if (accessKeyElement) {
+            var range = document.createRange();
+            range.selectNode(accessKeyElement);
+            window.getSelection().removeAllRanges(); // Clear current selection
+            window.getSelection().addRange(range); // Select text
+            document.execCommand("copy"); // Copy selected text to clipboard
+            window.getSelection().removeAllRanges(); // Clear selection again
+            alert("Access key copied to clipboard!");
+        }
+    }
+</script>
 {% if messages %}
     <ul class="messages">
         {% for message in messages %}
             <li{% if message.tags == "error" %} style="color: red"{% endif %}>{{ message }}</li>
         {% endfor %}
-    </ul>
+     </ul>
 {% endif %}
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Welcome to Access Control</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="">
-</head>
-<style type="text/css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            color: #333;
-        }
-        p {
-            margin: 10px 0;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        a {
-            color: #007bff;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
-</style>
-<body>
+<div class="container">
     {% if not user.is_authenticated %}
-        <h3>Welcome to Access Control</h3>
-        <a href='/signin'>Signin</a>
-        <br>
-        <a href='/signup'>Don't have an account? SIGNUP</a>
-        <br>
-        <a href='/reset_password'>Forgot password?</a>
+        <h1>Welcome to Access Control</h1>
+        <div class="buttons-container">
+            <a href="/signin">Sign In</a>
+            <a href="/signup">Sign Up</a>
+        </div>
     {% else %}
-        <!-- Content for authenticated users goes here -->
-        <h2>Hello, {{ user.first_name }}</h2>
-        {% if access_key_instance is None %}
-        <h3>Welcome to the Access Key generating site. Click the link below to buy your access key.</h3>
-        <a href="/generate_access_key" class="btn btn-primary">Buy Now!</a><br/><br/>
-        <a href='/signout'>Signout</a>
-        {% else %}
-            <p>Your access key is: <span id="access-key">{{ access_key_instance}}</span></p>
-            <p>This Key was Created: <span id="created-at">{{ created_at }}</span></p>
-            <p>This Key Expires: <span id="expiration-date">{{ expiration_date }}</span></p>
-            <p>This Status of this Key is : <span id="is-active">{{ is_active }}</span></p>
-            <button onclick="copyToClipboard()">Copy Access Key</button>
-            <a href='/signout'>Signout</a>
-        {% endif %}
-    {% endif %}
 
-    <script>
-        function copyToClipboard() {
-            var accessKeyElement = document.getElementById("access-key");
-            if (accessKeyElement) {
-                var range = document.createRange();
-                range.selectNode(accessKeyElement);
-                window.getSelection().removeAllRanges(); // Clear current selection
-                window.getSelection().addRange(range); // Select text
-                document.execCommand("copy"); // Copy selected text to clipboard
-                window.getSelection().removeAllRanges(); // Clear selection again
-                alert("Access key copied to clipboard!");
-            }
-        }
-    </script>
+        <div class="white-box">
+        <h2>Hello, {{ user.first_name }}</h2>
+            <div class="access-details">
+                <p>Your access key is: <span id="access-key">{{ access_key_instance }}</span></p>
+                <p>This Key was Created: <span id="created-at">{{ created_at }}</span></p>
+                <p>This Key Expires: <span id="expiration-date">{{ expiration_date }}</span></p>
+                <p>This Status of this Key is : <span id="is-active">{{ is_active }}</span></p>
+                <button onclick="copyToClipboard()">Copy Access Key</button>
+            </div>
+        </div>
+        <a href='/signout'>Signout</a>
+    {% endif %}
+</div>
 </body>
 </html>

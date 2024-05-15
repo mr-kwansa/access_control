@@ -1,101 +1,171 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f5f5f5;
-                margin: 25%;
-                padding: 20px;
-            }
-            .container {
-                max-width: 400px;
-                margin: 50px auto;
-                background-color: #fff;
-                padding: 30px;
-                border-radius: 8px;
-                box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-            }
-            h3 {
-                margin-top: 0;
-                text-align: center;
-                color: #333;
-            }
-            form {
-                display: flex;
-                flex-direction: column;
-            }
-            label {
-                margin-bottom: 8px;
-                color: #333;
-            }
-            input[type="text"],
-            input[type="email"],
-            input[type="password"] {
-                width: 100%;
-                padding: 10px;
-                margin-bottom: 20px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-                box-sizing: border-box;
-            }
-            button {
-                width: 100%;
-                padding: 10px;
-                background-color: #007bff;
-                color: #fff;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-                transition: background-color 0.3s ease;
-            }
-            button:hover {
-                background-color: #0056b3;
-            }
-        </style>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-    </head>
-    <body>
-        {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <li{% if message.tags == "error" %} style="color: red"{% endif %}>{{ message }}</li>
-                {% endfor %}
-             </ul>
-        {% endif %}
-        <h3>Signup</h3>
-        <form action="/signup/" method="POST">
-            {% csrf_token %}
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" placeholder="Enter User name" required ><br><br>
-            
-            <label for="first_name">First Name:</label>
-            <input type="text" id="first_name" name="first_name"  placeholder="Enter Your First Name" required><br><br>
+<!-- Created By CodingLab - www.codinglabweb.com -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Sigup Form</title> 
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+  </head>
+  <style type="text/css">@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins',sans-serif;
+    }
+    body{
+      background: #1abc9c;
+      overflow: hidden;
+    }
+    ::selection{
+      background: rgba(26,188,156,0.3);
+    }
+    .container{
+      max-width: 440px;
+      padding: 0 20px;
+      margin: 170px auto;
+    }
+    .wrapper{
+      width: 100%;
+      background: #fff;
+      border-radius: 5px;
+      box-shadow: 0px 4px 10px 1px rgba(0,0,0,0.1);
+    }
+    .wrapper .title{
+      height: 90px;
+      background: #16a085;
+      border-radius: 5px 5px 0 0;
+      color: #fff;
+      font-size: 30px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .wrapper form{
+      padding: 30px 25px 25px 25px;
+    }
+    .wrapper form .row{
+      height: 45px;
+      margin-bottom: 15px;
+      position: relative;
+    }
+    .wrapper form .row input{
+      height: 100%;
+      width: 100%;
+      outline: none;
+      padding-left: 60px;
+      border-radius: 5px;
+      border: 1px solid lightgrey;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+    form .row input:focus{
+      border-color: #16a085;
+      box-shadow: inset 0px 0px 2px 2px rgba(26,188,156,0.25);
+    }
+    form .row input::placeholder{
+      color: #999;
+    }
+    .wrapper form .row i{
+      position: absolute;
+      width: 47px;
+      height: 100%;
+      color: #fff;
+      font-size: 18px;
+      background: #16a085;
+      border: 1px solid #16a085;
+      border-radius: 5px 0 0 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .wrapper form .pass{
+      margin: -8px 0 20px 0;
+    }
+    .wrapper form .pass a{
+      color: #16a085;
+      font-size: 17px;
+      text-decoration: none;
+    }
+    .wrapper form .pass a:hover{
+      text-decoration: underline;
+    }
+    .wrapper form .button input{
+      color: #fff;
+      font-size: 20px;
+      font-weight: 500;
+      padding-left: 0px;
+      background: #16a085;
+      border: 1px solid #16a085;
+      cursor: pointer;
+    }
+    form .button input:hover{
+      background: #12876f;
+    }
+    .wrapper form .signup-link{
+      text-align: center;
+      margin-top: 20px;
+      font-size: 17px;
+    }
+    .wrapper form .signup-link a{
+      color: #16a085;
+      text-decoration: none;
+    }
+    form .signup-link a:hover{
+      text-decoration: underline;
+    }</style>
+  <body>
+    <div class="container">
+      <div class="wrapper">
+        <div class="title"><span>Signup Form</span></div>
+        <form action="/signup/" method="post">
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags == "error" %} style="color: red"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {%csrf_token%}
+            <div class="row">
+              <i class="fa-regular fa-user"></i>
+              <input type="text"name="username" placeholder="Enter your Username" required>
+            </div>
 
-            <label for="last_name">Last Name:</label>
-            <input type="text" id="last_name" name="last_name" placeholder="Enter Your Last Name" required><br><br>
-    
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="example@example.com" required><br><br>
-    
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" placeholder="************" required><br><br>
-    
-            <label for="confirm_password">Confirm Password:</label>
-            <input type="password" id="confirm_password" name="confirm_password" placeholder="************" required><br><br>
-    
-            <button type="submit">Signup</button>
+            <div class="row">
+                <i class="fas fa-user"></i>
+                <input type="text"name="first_name" id="first_name" placeholder="Enter your First" required>
+            </div>
+
+            <div class="row">
+                <i class="fas fa-user"></i>
+                <input type="text"name="last_name" id="last_name" placeholder="Enter your Last" required>
+            </div>
+
+            <div class="row">
+                <i class="fas fa-envelope"></i>
+                <input type="email"name="email" id="email" placeholder="Enter your Email" required>
+            </div>
+
+            <div class="row">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+
+            <div class="row">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="confirm_password" id="confirm_password" placeholder="Password" required>
+            </div>
+
+          <div class="row button">
+            <input type="submit" value="Signup">
+          </div>
         </form>
-        
-        <script src="" async defer></script>
-    </body>
+      </div>
+    </div>
+
+  </body>
 </html>

@@ -86,5 +86,11 @@ This can be accessed via a link in the micro focus admin page
 -[http://localhost:8000/school_integration_endpoint/]
 
 
+## DEBUGING
+
+In the event of the following error....."ValueError: No support for 'b'''. We support: cockroach, mssql, mssqlms, mysql, mysql-connector, mysql2, mysqlgis, oracle, oraclegis, pgsql, postgis, postgres, postgresql, redshift, spatialite, sqlite, timescale, timescalegis"
+
+run this comand "export DATABASE_URL=db_url"
+find the db_url in the .env file
 
 
