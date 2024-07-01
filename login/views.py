@@ -92,6 +92,7 @@ def signup(request):
 
         send_mail(subject, message_body, from_email, to_email, fail_silently=False)
 
+
         return redirect('signin') 
     return render(request, "login/signup.html")
 
